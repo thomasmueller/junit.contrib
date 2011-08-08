@@ -1,11 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<title>thomasmueller/junit.contrib @ GitHub</title>
+<title>JUnit Contrib - AssertThrows</title>
 <style type="text/css">
-body { 
+body {
+    margin: 0 auto;
+    max-width: 640px;
     margin-top: 1.0em;
     font: 13px/1.4 Arial, sans-serif;
+}
+h1 { 
+    margin-bottom: 0px; 
 }
 a {
     text-decoration: none;
@@ -17,60 +22,36 @@ pre {
     background-color: #eee;
     padding: 6px;
 }
-#container {
-    margin: 0 auto;
-    width: 700px;
+.button {
+    color: #fff;
+    font-size: 12px;
+    border: solid 1px;
+    border-color: #0a0;
+    background-color: #080;
+    background: -moz-linear-gradient(top,  #0c0,  #080);
+    background: -webkit-gradient(linear, left top, left bottom, from(#0c0), to(#080));
+    padding: 5px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
 }
-h1 { 
-    font-size: 2.0em; 
-    margin-bottom: 3px; 
-}
-h2 { 
-    font-size: 1.5em; 
-}
-.description { 
-    font-size: 1.2em; 
-    margin-bottom: 60px; 
-    margin-top: 0px; 
-    font-style: italic;
-}
-.download { 
-    float: right; 
-}
-hr { 
-    border: 0; 
-    width: 80%; 
-    border-bottom: 1px solid #aaa
-}
-.footer {
-    padding-top: 30px; 
-}
-img {
-    border: 0px;
+.button a {
+    color: #fff;
 }
 </style>
 </head>
 
 <body>
 
-<div>
-<a href="http://github.com/thomasmueller/junit.contrib"><img style="position: absolute; top: 0; right: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-</div>
+<span class="button" style="position: relative; float:right; padding: 15px 15px 15px 15px;">
+<a style="padding: 15px 15px 15px 15px;" href="#Download">Download</a>&#x2b07;
+</span>
 
-<div id="container">
+<h1>
+<span style="color: #33ff33">J</span><span style="color: #cc0000">U</span>nit Contrib -
+AssertThrows</h1>
+<div><i>Testing for Expected Exceptions</i></div>
 
-<div class="download">
-<a href="http://github.com/thomasmueller/junit.contrib/zipball/master">
-    <img width="90" src="http://github.com/images/modules/download/zip.png" alt="Download Zip" />
-</a>
-<a href="http://github.com/thomasmueller/junit.contrib/tarball/master">
-    <img width="90" src="http://github.com/images/modules/download/tar.png" alt="Download Tar" />
-</a>
-</div>
-
-<h1><a href="http://github.com/thomasmueller/junit.contrib">JUnit Contrib - AssertThrows</a></h1>
-<div class="description">Testing for Expected Exceptions</div>
-    
 <p>
 This JUnit extension allows you to test for exceptions as you would test for other conditions, often as:
 </p>
@@ -79,10 +60,8 @@ assertThrows(emptyList).get(0);
 </pre>
 
 <h2>Contents</h2>
-<p>
-<span  style="border: solid 1px; padding: 4px;">
+<p style="border: solid 1px; padding: 4px;">
 This is an alpha release. The package names, API, and features may change in a future release.
-</span>
 </p>
 
 <ul><li><a href="#TheProblem">The Problem</a>
@@ -91,9 +70,11 @@ This is an alpha release. The package names, API, and features may change in a f
 </li><li><a href="#Proxy">Proxy</a>
 </li><li><a href="#AnonymousClass">Anonymous Class</a>
 </li><li><a href="#LastThrown">Getting the Last Throwable</a>
+</li><li><a href="#Usage">Usage</a>
+</li><li><a href="#Download">Download and Links</a>
 </li><li><a href="#Dependencies">Dependencies</a>
+</li><li><a href="#License">License</a>
 </li><li><a href="#KnownProblems">Known Problems</a>
-</li><li><a href="#Download">Download</a>
 </li></ul>
 
 <h2 id="TheProblem">The Problem</h2>
@@ -282,6 +263,75 @@ Please note even thought this is a static method, it is multi-threading save bec
 it uses a <code>ThreadLocal</code> variable internally.
 </p>
 
+<h2 id="Usage">Usage</h2>
+<p>
+To use this tool, download add the <code>.jar</code> file to your project.
+A minimal test case is:
+</p>
+<pre>
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Test;
+import org.junit.contrib.assertthrows.AssertThrows;
+import static org.junit.contrib.assertthrows.AssertThrows.*;
+public class HelloAssertThrows {
+    @Test
+    public void test() {
+        final List&lt;String&gt; emptyList = new ArrayList&lt;String&gt;();
+        assertThrows(emptyList).get(0);
+        new AssertThrows() { public void test() {
+            emptyList.get(0);
+        }};
+    }
+}
+</pre>
+<h3>Using Maven</h3>
+<p>
+The jar file is not yet in a Maven central repository, but you can build and deploy it locally if you wish.
+To do that, first download the <code>.zip</code> or <code>.tar.gz</code> file, and build it using: 
+</p>
+<pre>
+cd assertthrows
+mvn clean install
+</pre>
+<p>
+Then use the following dependency:
+</p>
+<pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.junit.contrib&lt;/groupId&gt;
+    &lt;artifactId&gt;junit-assertthrows&lt;/artifactId&gt;
+    &lt;version&gt;0.1-SNAPSHOT&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</pre>
+
+<h2 id="Download">Download and Links</h2>
+<ul><li>
+<a href="http://github.com/downloads/thomasmueller/junit.contrib/junit-assertthrows-0.1-SNAPSHOT.jar">
+Binary jar: junit-assertthrows-0.1-SNAPSHOT.jar</a>
+</li><li>
+<a href="http://github.com/thomasmueller/junit.contrib/zipball/master">Source zip</a><br />
+</li><li>
+<a href="http://github.com/thomasmueller/junit.contrib/tarball/master">Source tar.gz</a><br />
+</li></ul>
+<p>
+<p>
+Please note the above links point to the <a href="http://github.com/thomasmueller/junit.contrib">Github project from Thomas Mueller</a>,
+which is a fork of the <a href="http://github.com/dsaff/junit.contrib">official JUnit Contrib project from David Saff</a>.
+</p>
+<p>
+Issue with the assertThrows feature are currently tracked in
+<a href="http://github.com/thomasmueller/junit.contrib/issues">Thomas Mueller's issue tracker</a>.
+</p>
+<p>
+To clone the project with Git, run:
+</p>
+<pre>
+git clone git://github.com/thomasmueller/junit.contrib
+</pre>
+<p>
+
 <h2 id="Dependencies">Dependencies</h2>
 <p>
 This project does not required additional libraries. However, if you want to
@@ -304,32 +354,16 @@ To add the dependencies to a Maven project, use:
 &lt;/dependency&gt;
 </pre>
 
+<h2 id="License">License</h2>
+<p>
+This project uses the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License Version 2.0</a>.
+</p>
+
 <h2 id="KnownProblems">Known Problems</h2>
 <p>
 There are classpath problems when using Maven 2.x. together with the the compiling proxy factory.
 If the compiling proxy factory is required, you will need to use Maven 3.x.
 </p>
 
-<h2 id="Download">Download</h2>
-<p>
-You can download this project in either
-<a href="http://github.com/thomasmueller/junit.contrib/zipball/master">zip</a> or
-<a href="http://github.com/thomasmueller/junit.contrib/tarball/master">tar</a> formats.
-</p>
-<p>
-You can also clone the project with <a href="http://git-scm.com">Git</a> by running:
-</p>
-<pre>$ git clone git://github.com/thomasmueller/junit.contrib</pre>
-<p>
-Get the source code on GitHub: <a href="http://github.com/thomasmueller/junit.contrib">thomasmueller/junit.contrib</a>
-</p>
-
-<p>
-License: Apache<br />
-Authors: <a href="http://github.com/thomasmueller">Thomas Mueller</a>, <a href="http://github.com/dsaff">David Saff</a><br />
-Contact: Thomas Mueller
-</p>
-
-</div>
 </body>
 </html>
